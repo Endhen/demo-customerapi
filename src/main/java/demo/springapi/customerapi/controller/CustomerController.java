@@ -1,5 +1,6 @@
 package demo.springapi.customerapi.controller;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
 
@@ -12,10 +13,12 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import demo.springapi.customerapi.entity.Customer;
 import demo.springapi.customerapi.service.CustomerService;
+import demo.springapi.customerapi.service.RabbitMQSender;
 
 @RestController
 @RequestMapping("/customer")
@@ -23,6 +26,16 @@ public class CustomerController {
     
     @Autowired
     private CustomerService service;
+
+    @Autowired
+    private RabbitMQSender rabbitMQSender;    
+
+    @PostMapping(value = "/sendMessage")
+    public String producer(@RequestParam(value="message") String message) throws IOException { 
+ 
+        rabbitMQSender.send(message);
+        return "Message sent to the RabbitMQ Successfully";
+    }
 
     @PostMapping
     public ResponseEntity<Customer> create(@RequestBody Customer newCustomer){
