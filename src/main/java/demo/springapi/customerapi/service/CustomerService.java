@@ -34,5 +34,9 @@ public class CustomerService {
     public void delete(int id) {
         repository.deleteById(id);
     }
+
+    public void saveAll(Customer[] newCustomerList) {
+        repository.saveAll(List.of(newCustomerList));
+    }
 }
 

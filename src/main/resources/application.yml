@@ -1,3 +1,6 @@
+server:
+    port : 8080
+
 spring:
     output:
         ansi:
@@ -18,7 +21,7 @@ spring:
 
     datasource:
         driverClassName: com.mysql.cj.jdbc.Driver
-        url: jdbc:mysql://localhost:3308/customer_api?serverTimezone=UTC
+        url: jdbc:mysql://localhost:3308/customer-service?serverTimezone=UTC
         username: root
 
     jpa:

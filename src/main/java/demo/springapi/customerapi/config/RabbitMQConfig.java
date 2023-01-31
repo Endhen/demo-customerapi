@@ -27,23 +27,28 @@ public class RabbitMQConfig {
     private String routingkey;
 
 
-    @Bean Queue queue() {
+    @Bean 
+    public Queue queue() {
         return new Queue(queueName, true);
     }
 
-    @Bean DirectExchange exchange() {
+    @Bean 
+    public DirectExchange exchange() {
         return new DirectExchange(exchange);
     }
 
-    @Bean Binding binding(Queue queue, DirectExchange exchange) {
+    @Bean 
+    public Binding binding(Queue queue, DirectExchange exchange) {
         return BindingBuilder.bind(queue).to(exchange).with(routingkey);
     }
 
-    @Bean MessageConverter jsonMessageConverter() {
+    @Bean 
+    public MessageConverter jsonMessageConverter() {
         return new Jackson2JsonMessageConverter();
     }
 
-    @Bean AmqpTemplate rabbitTemplate(ConnectionFactory connectionFactory) {
+    @Bean 
+    public AmqpTemplate rabbitTemplate(ConnectionFactory connectionFactory) {
         final RabbitTemplate rabbitTemplate = new RabbitTemplate(connectionFactory);
         rabbitTemplate.setMessageConverter(jsonMessageConverter());
 

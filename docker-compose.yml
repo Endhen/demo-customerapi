@@ -1,0 +1,10 @@
+version: "3"
+
+services:
+  customer-api:
+    build: .
+    container_name: customer-api
+    restart: always
+    ports:
+      - 8080:8080
+    

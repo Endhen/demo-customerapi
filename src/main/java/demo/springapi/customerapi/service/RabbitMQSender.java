@@ -20,11 +20,17 @@ public class RabbitMQSender {
     private String routingkey;
 
  
-    @Scheduled
+    @Scheduled(fixedRate = 10_000)
     public void send(String message) {
-        String CustomMessage = "This is a message from sender : "+ message;
 
-        rabbitTemplate.convertAndSend(exchange, routingkey, CustomMessage);
-        System.out.println("Send msg to consumer= " + CustomMessage+" ");
+        rabbitTemplate.convertAndSend(exchange, routingkey, message);
+        System.out.println("Send msg to customer batch : " + message);
+    }
+
+    @Scheduled
+    public Object sendAndReceive(String message) {
+
+        System.out.println("Send msg to customer batch : " + message);
+        return rabbitTemplate.convertSendAndReceive(exchange, routingkey, message);
     }
 }

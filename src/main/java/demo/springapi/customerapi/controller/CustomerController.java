@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import demo.springapi.customerapi.entity.Customer;
@@ -30,11 +29,23 @@ public class CustomerController {
     @Autowired
     private RabbitMQSender rabbitMQSender;    
 
-    @PostMapping(value = "/sendMessage")
-    public String producer(@RequestParam(value="message") String message) throws IOException { 
+    @GetMapping(value = "/export")
+    public String sendImportMessage(@RequestBody Customer[] newCustomerList) throws IOException { 
+
+        service.saveAll(newCustomerList); 
+        Object response = rabbitMQSender.sendAndReceive("import");
+        System.out.println("respose" + response.toString());
+        return response.toString();
+    }
+
+
+    @PostMapping(value = "/import")
+    public String sendExportMessage(@RequestBody Customer[] newCustomerList) throws IOException {
+
+        service.saveAll(newCustomerList); 
  
-        rabbitMQSender.send(message);
-        return "Message sent to the RabbitMQ Successfully";
+        rabbitMQSender.send("export");
+        return "Message sent : Export order to customer-batch";
     }
 
     @PostMapping
