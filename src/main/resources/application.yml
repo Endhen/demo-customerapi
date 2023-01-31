@@ -3,18 +3,14 @@ spring:
         ansi:
             enabled: ALWAYS
 
-    logging:
-        level:
-            org.springframework.amqp: DEBUG
-
     main:
         allow-bean-definition-overriding: true
      
     rabbitmq: 
         host: localhost
         port: 5672
-        username: guest
-        password: guest
+        username: customer-api
+        password: customer-api
         routingkey: batch.new-customer
         exchange: amq.direct
         queue: batch.queue
