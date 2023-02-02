@@ -2,22 +2,23 @@ package demo.springapi.customerapi.service;
 
 import org.springframework.amqp.core.AmqpTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
+import lombok.extern.slf4j.Slf4j;
 
+
+@Slf4j
 @Service
-public class RabbitMQSender {
+public class RabbitMQMessageSender implements MessageSenderInterface {
 
     @Autowired
     private AmqpTemplate rabbitTemplate;
-    private final String exchange = "batch.exchange";
-    private final String routingkey = "job.import";
+    private final String exchange = "batch-exchange.direct";
+    private final String routingkey = "job.start";
 
-    @Scheduled
-    public void sendImportOrder(Integer orderId) {
+    public void sendOrder(long orderId) {
 
-        System.out.println("Send import order ...");
+        log.info("Sending export order with id " + orderId + "...");
         rabbitTemplate.convertAndSend(exchange, routingkey, orderId);
     }
 

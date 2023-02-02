@@ -4,4 +4,4 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 import demo.springapi.customerapi.entity.BatchOrder;
 
-public interface BatchOrderRepository extends JpaRepository<BatchOrder, Integer> {}
+public interface BatchOrderRepository extends JpaRepository<BatchOrder, Long> {}

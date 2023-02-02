@@ -8,14 +8,19 @@ import org.springframework.stereotype.Service;
 
 import demo.springapi.customerapi.entity.BatchOrder;
 import demo.springapi.customerapi.repository.BatchOrderRepository;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 @Service
-public class BatchOrderService {
+public class BatchOrderService implements BatchOrderServiceInterface {
     
     @Autowired
     private BatchOrderRepository repository;
 
-    public Optional<BatchOrder> findById(int id) {
+    @Autowired
+    private MessageSenderInterface rabbitMQSender;
+
+    public Optional<BatchOrder> findById(long id) {
         return repository.findById(id);
     }
 
@@ -23,15 +28,23 @@ public class BatchOrderService {
         return repository.findAll();
     }
 
-    public BatchOrder create(BatchOrder customer) {
-        return repository.save(customer);
+    public BatchOrder createNewBatchOrder() {
+
+        log.info("Saving new order to data base");
+        BatchOrder newOrder = new BatchOrder();
+        repository.save(newOrder);
+        log.debug("Save complete with id " + newOrder.getId());
+        
+        log.info("Send new order to Rabbit MQ with id " + newOrder.getId());
+        rabbitMQSender.sendOrder(newOrder.getId());
+        return newOrder;
     }
 
     public BatchOrder update(BatchOrder customer) {
         return repository.save(customer);
     }
 
-    public void delete(int id) {
+    public void delete(long id) {
         repository.deleteById(id);
     }
 

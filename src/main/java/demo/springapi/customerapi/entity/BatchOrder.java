@@ -12,16 +12,18 @@ import demo.springapi.customerapi.enums.OrderType;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.experimental.Accessors;
 
 @Entity
 @Data
+@Accessors(chain = true)
 @NoArgsConstructor
 @AllArgsConstructor
 public class BatchOrder {
     
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private int id;
+    private long id;
     private OrderType type = OrderType.EXPORT;
     private OrderStatus status = OrderStatus.PENDINNG;
     private final LocalDateTime dateTime = LocalDateTime.now();

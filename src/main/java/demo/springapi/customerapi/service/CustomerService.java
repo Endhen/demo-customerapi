@@ -10,12 +10,12 @@ import demo.springapi.customerapi.entity.Customer;
 import demo.springapi.customerapi.repository.CustomerRepository;
 
 @Service
-public class CustomerService {
+public class CustomerService implements CustomerServiceInterface {
     
     @Autowired
     private CustomerRepository repository;
 
-    public Optional<Customer> findById(int id) {
+    public Optional<Customer> findById(long id) {
         return repository.findById(id);
     }
 
@@ -31,12 +31,12 @@ public class CustomerService {
         return repository.save(customer);
     }
 
-    public void delete(int id) {
+    public void delete(long id) {
         repository.deleteById(id);
     }
 
-    public void saveAll(Customer[] newCustomerList) {
-        repository.saveAll(List.of(newCustomerList));
+    public void saveAll(List<Customer> newCustomerList) {
+        repository.saveAll(newCustomerList);
     }
 }
 
