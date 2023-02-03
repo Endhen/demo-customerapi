@@ -22,7 +22,7 @@ public class BatchOrderController {
     private BatchOrderServiceInterface service;
 
     @PostMapping(value = "/generate")
-    public ResponseEntity<String> create(){
+    public ResponseEntity<String> createNewBatchOrder(){
         
         BatchOrder newOrder = service.createNewBatchOrder();
         
