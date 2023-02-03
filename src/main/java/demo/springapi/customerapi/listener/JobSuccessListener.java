@@ -29,7 +29,7 @@ public class JobSuccessListener {
             batchOrderService.update(
                 batchOrder.get().setStatus(OrderStatus.COMPLETED));
         else 
-            log.error("[SUCCESS-Q] Batch order lost");
+            log.error("[SUCCESS-QUEUE] Batch order lost");
 
     }
 

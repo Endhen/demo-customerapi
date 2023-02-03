@@ -29,7 +29,7 @@ public class JobErrorListener {
             batchOrderService.update(
                 batchOrder.get().setStatus(OrderStatus.PROCESSING));
         else 
-            log.error("[ERROR-Q] Batch order lost");
+            log.error("[ERROR-QUEUE] Batch order lost");
         
     }
 

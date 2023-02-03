@@ -21,12 +21,15 @@ public class CustomerController {
     @Autowired
     private CustomerServiceInterface customerService; 
 
-    @PostMapping(value = "/import")
-    public ResponseEntity<String> sendExportMessage(@RequestBody List<Customer> newCustomerList) throws IOException {
+    @PostMapping(value = "/list")
+    public ResponseEntity<String> importCustomerList(@RequestBody List<Customer> newCustomerList) throws IOException {
 
         customerService.saveAll(newCustomerList); 
 
-        return new ResponseEntity<>("Import OK", HttpStatus.ACCEPTED);
+        return new ResponseEntity<>(
+            newCustomerList.size() + "customers successfuly imported into data base", 
+            HttpStatus.CREATED
+        );
     }
 
 }

@@ -1,6 +1,5 @@
 package demo.springapi.customerapi.service;
 
-import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,28 +23,21 @@ public class BatchOrderService implements BatchOrderServiceInterface {
         return repository.findById(id);
     }
 
-    public List<BatchOrder> findAll() {
-        return repository.findAll();
-    }
-
     public BatchOrder createNewBatchOrder() {
 
         log.info("Saving new order to data base");
         BatchOrder newOrder = new BatchOrder();
-        repository.save(newOrder);
-        log.debug("Save complete with id " + newOrder.getId());
+        log.debug("New order initial id " + newOrder.getId());
+        BatchOrder batchOrder = repository.save(newOrder);
+        log.debug("Save complete with id " + batchOrder.getId());
         
-        log.info("Send new order to Rabbit MQ with id " + newOrder.getId());
-        rabbitMQSender.sendOrder(newOrder.getId());
-        return newOrder;
+        log.info("Send new order to Rabbit MQ with id " + batchOrder.getId());
+        rabbitMQSender.sendOrder(batchOrder.getId());
+        return batchOrder;
     }
 
-    public BatchOrder update(BatchOrder customer) {
-        return repository.save(customer);
-    }
-
-    public void delete(long id) {
-        repository.deleteById(id);
+    public BatchOrder update(BatchOrder batchOrder) {
+        return repository.save(batchOrder);
     }
 
 }

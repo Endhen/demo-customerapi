@@ -37,7 +37,7 @@ public class BatchOrderControllerTest {
     public void testCreateNewBatchOrder() throws Exception {
 
         // Given
-        long id = 1L;
+        long id = 1;
         BatchOrder newOrder = new BatchOrder().setId(id);
 
         // When

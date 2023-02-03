@@ -10,5 +10,6 @@ public interface BatchOrderServiceInterface {
 
     public BatchOrder createNewBatchOrder();
 
+    public BatchOrder update(BatchOrder batchOrder);
 
 }
