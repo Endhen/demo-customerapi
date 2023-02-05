@@ -27,12 +27,12 @@ public class BatchOrderService implements BatchOrderServiceInterface {
 
         log.info("Saving new order to data base");
         BatchOrder newOrder = new BatchOrder();
-        log.debug("New order initial id " + newOrder.getId());
+        
         BatchOrder batchOrder = repository.save(newOrder);
         log.debug("Save complete with id " + batchOrder.getId());
         
-        log.info("Send new order to Rabbit MQ with id " + batchOrder.getId());
         rabbitMQSender.sendOrder(batchOrder.getId());
+
         return batchOrder;
     }
 
